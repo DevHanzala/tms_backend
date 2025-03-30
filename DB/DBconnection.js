@@ -1,21 +1,22 @@
 import { Sequelize } from "sequelize";
+import pg from "pg"; // Import pg explicitly
 import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
-// PostgreSQL Database Connection using Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: "postgres",
-  logging: false, // Disable SQL query logging
+  dialectModule: pg, // Explicitly set the dialect module
+  logging: false,
   port: process.env.DB_PORT,
   dialectOptions: {
     ssl: {
-      require: true, // Required for Neon.tech
-      rejectUnauthorized: false, // Prevents SSL errors
+      require: true,
+      rejectUnauthorized: false,
     },
   },
-  pool: { // Connection pool for efficiency
+  pool: {
     max: 5,
     min: 0,
     acquire: 30000,
@@ -23,22 +24,19 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   },
 });
 
-// Function to test and establish database connection
 const connectDB = async () => {
   try {
-    await sequelize.authenticate(); // Verify connection
+    await sequelize.authenticate();
     console.log("✅ PostgreSQL Connected Successfully to Neon.tech");
 
-    // Sync models without forcing, creating tables if they don’t exist
     await sequelize.sync();
     console.log("✅ Database models synced (tables created if needed)");
   } catch (error) {
     console.error("❌ PostgreSQL Connection Failed:", error.message);
-    process.exit(1); // Exit process if connection fails
+    process.exit(1);
   }
 };
 
-// Call connectDB at startup
 connectDB();
 
 export { sequelize, connectDB };
