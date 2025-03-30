@@ -26,7 +26,7 @@ const app = express();
 
 // Configure CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Frontend origin
+  origin: "https://tms-frontend-xi.vercel.app", // Frontend origin
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
