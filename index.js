@@ -9,42 +9,42 @@ dotenv.config();
 // Import models to register them with Sequelize
 import "./models/userModel.js";
 import "./models/fileModel.js";
-import "./models/exEmployeeModel.js"; // Register ExEmployee model
-import "./models/payrollModel.js";    // Register Payroll model
-import "./models/hrUsers.js";  
+import "./models/exEmployeeModel.js";
+import "./models/payrollModel.js";
+import "./models/hrUsers.js";
 
 // Import API routes
 import userRoutes from "./routes/userRoute.js";
 import fileRoutes from "./routes/fileRoute.js";
 import authRoutes from "./routes/authRoute.js";
-import exEmployeeRoutes from "./routes/exEmployeeRoute.js"; // Ex-employee routes
-import payrollRoutes from "./routes/payrollRoute.js";      // Payroll routes
+import exEmployeeRoutes from "./routes/exEmployeeRoute.js";
+import payrollRoutes from "./routes/payrollRoute.js";
 
 // Initialize Express app
 const app = express();
 
 // Configure CORS (Cross-Origin Resource Sharing) options
 const corsOptions = {
-  origin: "https://tms-frontend-xi.vercel.app", // Allow requests from frontend
+  origin: ["https://tms-frontend-xi.vercel.app"], // Allow frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Allowed HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
 
 // Apply CORS middleware
-app.use(cors(corsOptions)); // Enable CORS with specified options
+app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Handle preflight requests
 
 // Middleware to parse request bodies
-app.use(express.json({ limit: "50mb" }));  // Parse JSON bodies with a size limit
+app.use(express.json({ limit: "50mb" })); // Parse JSON bodies with a size limit
 app.use(express.urlencoded({ limit: "50mb", extended: true })); // Parse URL-encoded bodies
 
 // Register API routes
-app.use("/api/users", userRoutes);         // User-related routes
-app.use("/api/files", fileRoutes);         // File-related routes
-app.use("/api/auth", authRoutes);          // Authentication routes
-app.use("/api/exemployees", exEmployeeRoutes); // Ex-employee routes
-app.use("/api/payrolls", payrollRoutes);   // Payroll routes
+app.use("/api/users", userRoutes);
+app.use("/api/files", fileRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/exemployees", exEmployeeRoutes);
+app.use("/api/payrolls", payrollRoutes);
 
 // Root endpoint (to check if the backend is running)
 app.get("/", (req, res) => {
